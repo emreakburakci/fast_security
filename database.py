@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 # Database setup
@@ -29,6 +29,7 @@ class Student(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
     courses = relationship("Course", secondary="enrollments", back_populates="students")
 
 class Admin(Base):
