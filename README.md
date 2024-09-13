@@ -13,6 +13,7 @@ The repository contains the following key files and directories:
 - `Dockerfile`: Instructions for building a Docker image
 - `docker-compose.yml`: Docker Compose configuration file
 - `.gitignore`: Specifies intentionally untracked files to ignore
+- `nlp.py`: NLP related functionality
 
 ## Setup
 
