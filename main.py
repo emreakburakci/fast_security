@@ -8,7 +8,7 @@ from typing import Annotated, List
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from database import Admin, Course, CourseBase, CourseCreate, CourseEnroll, Student, StudentResponse, Token, UserCreate, get_db
+from database import Admin, Course, CourseBase, CourseCreate, CourseEnroll, Enrollment, Student, StudentResponse, Token, UserCreate, get_db
 from security import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, pwd_context, oauth2_scheme
 from security import authenticate_user, get_password_hash, create_access_token
 from nlp import *
@@ -157,6 +157,24 @@ async def enroll_course(enrollment: CourseEnroll, db: Session = Depends(get_db),
     user.courses.append(course)
     db.commit()
     return {"message": "Enrolled in course successfully"}
+
+
+
+@app.post("/student/courses", response_model=List[str], )
+async def get_student_courses(username: str = Body(...), db: Session = Depends(get_db),current_user: tuple = Depends(get_current_user)):
+    student = current_user[0]
+    if not student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Student not found"
+        )
+    
+    enrollments = db.query(Enrollment).filter(Enrollment.student_id == student.id).all()
+    courses = [db.query(Course).filter(Course.id == enrollment.course_id).first().name for enrollment in enrollments]
+    
+    return courses
+
+
 
 
 
