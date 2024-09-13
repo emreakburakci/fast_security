@@ -67,6 +67,8 @@ class CourseEnroll(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    username: str
+    role: str
 
 class StudentResponse(BaseModel):
     id: int
