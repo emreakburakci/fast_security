@@ -23,7 +23,7 @@ app = FastAPI(lifespan=lifespan)
 
 # CORS settings
 origins = [
-    "http://localhost:3000",
+    "http://localhost:3000","http://13.60.234.251:3000"
     # Add other origins if needed
 ]
 
